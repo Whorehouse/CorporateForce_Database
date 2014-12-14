@@ -15,12 +15,72 @@ CREATE DATABASE IF NOT EXISTS `corporateforce` /*!40100 DEFAULT CHARACTER SET ut
 USE `corporateforce`;
 
 
+-- Dumping structure for procedure corporateforce.userChangeOffice
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `userChangeOffice`(IN `id` INT(10) UNSIGNED, IN `office` INT(10) UNSIGNED)
+BEGIN
+	UPDATE users
+	SET users.OFFICE = office
+	WHERE users.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.userChangePassword
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `userChangePassword`(IN `id` INT(10) UNSIGNED, IN `password` VARCHAR(32))
+BEGIN
+	UPDATE users
+	SET users.PASSWORD = MD5(MD5(password))
+	WHERE users.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.userChangeProfile
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `userChangeProfile`(IN `id` INT(10) UNSIGNED, IN `profile` INT(10) UNSIGNED)
+BEGIN
+	UPDATE users
+	SET users.PROFILE = profile
+	WHERE users.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.userChangeRole
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `userChangeRole`(IN `id` INT(10) UNSIGNED, IN `role` INT(10) UNSIGNED)
+BEGIN
+	UPDATE users
+	SET users.ROLE = role
+	WHERE users.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.userCreate
 DELIMITER //
-CREATE DEFINER=`veress`@`%` PROCEDURE `userCreate`(IN `profile` INT(10) UNSIGNED, IN `office` INT(10) UNSIGNED, IN `role` INT(10) UNSIGNED, IN `manager` INT(10) UNSIGNED, IN `username` VARCHAR(50), IN `password` VARBINARY(32))
+CREATE DEFINER=`veress`@`%` PROCEDURE `userCreate`(IN `profile` INT(10) UNSIGNED, IN `office` INT(10) UNSIGNED, IN `role` INT(10) UNSIGNED, IN `manager` INT(10) UNSIGNED, IN `username` VARCHAR(50), IN `password` VARCHAR(32))
 BEGIN
-	INSERT INTO `users` (`users`.`PROFILE`, `users`.`OFFICE`, `users`.`ROLE`, `users`.`MANAGER`, `users`.`USERNAME`, `users`.`PASSWORD`) 
+	INSERT INTO users (users.PROFILE, users.OFFICE, users.ROLE, users.MANAGER, users.USERNAME, users.PASSWORD)
 	VALUES (profile, office, role, manager, username, MD5(MD5(password)));
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.userUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `userUpdate`(IN `id` INT, IN `profile` INT, IN `role` INT, IN `manager` INT, IN `username` VARCHAR(50), IN `password` VARCHAR(32))
+BEGIN
+	UPDATE users SET
+						users.PROFILE = profile,
+						users.OFFICE = office,
+						users.ROLE = role,
+						users.MANAGER = manager,
+						users.USERNAME = username,
+						users.PASSWORD = MD5(MD5(password))
+	WHERE users.ID = id;
 END//
 DELIMITER ;
 
