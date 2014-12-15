@@ -304,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `tickets` (
   `TYPE` enum('bug','task','question','new feature','improvement') NOT NULL,
   `PRIORITY` enum('major','minor','trivial') NOT NULL,
   `STATUS` enum('open','in progress','closed') NOT NULL,
-  `ESTIMATE` smallint(5) unsigned DEFAULT NULL,
+  `ESTIMATE` decimal(3,1) unsigned DEFAULT NULL,
   `DUEDATE` date NOT NULL,
   `NAME` varchar(50) NOT NULL,
   `DESCRIPTION` text,

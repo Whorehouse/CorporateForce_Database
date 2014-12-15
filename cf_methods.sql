@@ -15,6 +15,16 @@ CREATE DATABASE IF NOT EXISTS `corporateforce` /*!40100 DEFAULT CHARACTER SET ut
 USE `corporateforce`;
 
 
+-- Dumping structure for procedure corporateforce.articleCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `articleCreate`(IN `project` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `body` MEDIUMTEXT)
+BEGIN
+	INSERT INTO articles (articles.PROJECT, articles.CREATOR, articles.NAME, articles.BODY)
+	VALUES (project, creator, name, body);
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.chatterCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `chatterCreate`(IN `parent` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `body` TEXT)
@@ -58,6 +68,16 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.objectiveCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `objectiveCreate`(IN `project` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `description` TEXT, IN `status` ENUM('NEW','PENDING','IN PROGRESS','DONE','REJECTED'))
+BEGIN
+	INSERT INTO objectives (objectives.PROJECT, objectives.CREATOR, objectives.DESCRIPTION, objectives.`STATUS`)
+	VALUES (project, creator, description, `status`);
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.officeCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `officeCreate`(IN `name` VARCHAR(50), IN `address` TEXT)
@@ -78,6 +98,16 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.projectCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectCreate`(IN `creator` INT(10) UNSIGNED, IN `lead` INT(10) UNSIGNED, IN `status` ENUM('ACTIVE','SUSPENDED','CLOSED'), IN `name` VARCHAR(100), IN `description` TEXT)
+BEGIN
+	INSERT INTO projects (projects.CREATOR, projects.LEAD, projects.`STATUS`, projects.NAME, projects.DESCRIPTION)
+	VALUES (creator, lead, `status`, name, description);
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.roleCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `roleCreate`(IN `parent` INT(10) UNSIGNED, IN `name` VARCHAR(50))
@@ -94,6 +124,27 @@ CREATE DEFINER=`veress`@`%` PROCEDURE `settingsCreate`(IN `user` INT(10) UNSIGNE
 BEGIN
 	INSERT INTO settings (settings.USER)
 	VALUES (user);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.ticketCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `ticketCreate`(IN `project` INT(10) UNSIGNED, IN `user` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `type` ENUM('BUG','TASK','QUESTION','NEW FEATURE','IMPROVEMENT'), IN `priority` ENUM('MAJOR','MINOR','TRIVIAL'), IN `status` ENUM('OPEN','IN PROGRESS','CLOSED'), IN `estimate` DECIMAL(3,1), IN `duedate` DATE, IN `name` VARCHAR(50), IN `description` TEXT)
+BEGIN
+	INSERT INTO tickets (
+								tickets.PROJECT,
+								tickets.USER,
+								tickets.CREATOR,
+								tickets.`TYPE`,
+								tickets.PRIORITY,
+								tickets.`STATUS`,
+								tickets.ESTIMATE,
+								tickets.DUEDATE,
+								tickets.NAME,
+								tickets.DESCRIPTION
+								)
+	VALUES (project, user, creator, `type`, priority, `status`, estimate, duedate, name, description);
 END//
 DELIMITER ;
 
