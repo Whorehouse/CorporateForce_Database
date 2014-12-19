@@ -15,12 +15,68 @@ CREATE DATABASE IF NOT EXISTS `corporateforce` /*!40100 DEFAULT CHARACTER SET ut
 USE `corporateforce`;
 
 
+-- Dumping structure for procedure corporateforce.articleChangeBody
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `articleChangeBody`(IN `id` INT(10) UNSIGNED, IN `body` MEDIUMTEXT)
+BEGIN
+	UPDATE articles
+	SET articles.BODY = body
+	WHERE articles.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.articleChangeName
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `articleChangeName`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(100))
+BEGIN
+	UPDATE articles
+	SET articles.NAME = name
+	WHERE articles.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.articleCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `articleCreate`(IN `project` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `body` MEDIUMTEXT)
 BEGIN
 	INSERT INTO articles (articles.PROJECT, articles.CREATOR, articles.NAME, articles.BODY)
 	VALUES (project, creator, name, body);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.articlesresourceslinkCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `articlesresourceslinkCreate`(IN `article` INT(10) UNSIGNED, IN `resource` INT(10) UNSIGNED)
+BEGIN
+	INSERT INTO articlesresourceslink (articlesresourceslink.ARTICLE, articlesresourceslink.RESOURCE)
+	VALUES (article, resource);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.articleUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `articleUpdate`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `body` MEDIUMTEXT)
+BEGIN
+	UPDATE articles
+	SET
+		articles.NAME = name,
+		articles.BODY = body
+	WHERE articles.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.chatterChangeBody
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `chatterChangeBody`(IN `id` INT(10) UNSIGNED, IN `body` TEXT)
+BEGIN
+	UPDATE chatter
+	SET chatter.BODY = body
+	WHERE chatter.ID = id;
 END//
 DELIMITER ;
 
@@ -35,25 +91,91 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.chatterresourceslinkCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `chatterresourceslinkCreate`(IN `chatter` INT(10) UNSIGNED, IN `resource` INT(10) UNSIGNED)
+BEGIN
+	INSERT INTO chatterresourceslink (chatterresourceslink.CHATTER, chatterresourceslink.RESOURCE)
+	VALUES (chatter, resource);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.contactChangeBirthday
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `contactChangeBirthday`(IN `id` INT(10) UNSIGNED, IN `birthday` DATE)
+BEGIN
+	Update contacts
+	SET contacts.BIRTHDAY = birthday
+	WHERE contacts.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.contactChangeGender
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `contactChangeGender`(IN `id` INT(10) UNSIGNED, IN `gender` ENUM('MALE','FEMALE'))
+BEGIN
+	Update contacts
+	SET contacts.GENDER = gender
+	WHERE contacts.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.contactChangeImage
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `contactChangeImage`(IN `id` INT(10) UNSIGNED, IN `image` INT(10) UNSIGNED)
+BEGIN
+	Update contacts
+	SET contacts.IMAGE = image
+	WHERE contacts.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.contactCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `contactCreate`(IN `user` INT(10) UNSIGNED, IN `image` INT(10) UNSIGNED, IN `firstname` VARCHAR(50), IN `lastname` VARCHAR(50), IN `nickname` VARCHAR(50), IN `gender` ENUM('MALE','FEMALE'), IN `birthday` DATE, IN `address` TEXT, IN `phone` VARCHAR(50), IN `email` VARCHAR(50), IN `website` VARCHAR(255), IN `about` TEXT)
 BEGIN
-	INSERT INTO contacts (
-								contacts.USER,
-								contacts.IMAGE,
-								contacts.FIRSTNAME,
-								contacts.LASTNAME,
-								contacts.NICKNAME,
-								contacts.GENDER,
-								contacts.BIRTHDAY,
-								contacts.ADDRESS,
-								contacts.PHONE,
-								contacts.EMAIL,
-								contacts.WEBSITE,
-								contacts.ABOUT
-								)
+	INSERT INTO contacts 
+	(
+		contacts.USER,
+		contacts.IMAGE,
+		contacts.FIRSTNAME,
+		contacts.LASTNAME,
+		contacts.NICKNAME,
+		contacts.GENDER,
+		contacts.BIRTHDAY,
+		contacts.ADDRESS,
+		contacts.PHONE,
+		contacts.EMAIL,
+		contacts.WEBSITE,
+		contacts.ABOUT
+	)
 	VALUES (user, image, firstname, lastname, nickname, gender, birthday, address, phone, email, website, about);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.contactUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `contactUpdate`(IN `id` INT(10) UNSIGNED, IN `image` INT(10) UNSIGNED, IN `firstname` VARCHAR(50), IN `lastname` VARCHAR(50), IN `nickname` VARCHAR(50), IN `gender` ENUM('MALE','FEMALE'), IN `birthday` DATE, IN `address` TEXT, IN `phone` VARCHAR(50), IN `email` VARCHAR(50), IN `website` VARCHAR(255), IN `about` TEXT)
+BEGIN
+	Update contacts
+	SET
+		contacts.IMAGE = image,
+		contacts.FIRSTNAME = firstname,
+		contacts.LASTNAME = lastname,
+		contacts.NICKNAME = nickname,
+		contacts.GENDER = gender,
+		contacts.BIRTHDAY = birthday,
+		contacts.ADDRESS = address,
+		contacts.PHONE = phone,
+		contacts.EMAIL = email,
+		contacts.WEBSITE = website,
+		contacts.ABOUT = about
+	WHERE contacts.ID = id;
 END//
 DELIMITER ;
 
@@ -108,6 +230,35 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.questionCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `questionCreate`(IN `training` INT(10) UNSIGNED, IN `index` INT(10) UNSIGNED, IN `body` MEDIUMTEXT, IN `answers` TEXT, IN `correct` TINYTEXT)
+BEGIN
+	INSERT INTO questions (questions.TRAINING, questions.`INDEX`, questions.BODY, questions.ANSWERS, questions.CORRECT)
+	VALUES (training, `index`, body, answers, correct);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.resourcesCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `resourcesCreate`(IN `creator` INT(10) UNSIGNED, IN `name` VARCHAR(50), IN `filetype` VARCHAR(10), IN `filename` VARCHAR(50))
+BEGIN
+	
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.resultCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `resultCreate`(IN `training` INT(10) UNSIGNED, IN `user` INT(10) UNSIGNED, IN `duration` INT(10) UNSIGNED, IN `answered` SMALLINT, IN `wrong` SMALLINT)
+BEGIN
+	INSERT INTO results (results.TRAINING, results.USER, results.DURATION, results.ANSWERED, results.WRONG)
+	VALUES (training, user, duration, answered, wrong);
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.roleCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `roleCreate`(IN `parent` INT(10) UNSIGNED, IN `name` VARCHAR(50))
@@ -145,6 +296,36 @@ BEGIN
 								tickets.DESCRIPTION
 								)
 	VALUES (project, user, creator, `type`, priority, `status`, estimate, duedate, name, description);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.trainingCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `trainingCreate`(IN `creator` INT(10) UNSIGNED, IN `attachment` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `tutorial` TINYINT(1))
+BEGIN
+	INSERT INTO trainings (trainings.CREATOR, trainings.ATTACHMENT, trainings.NAME, trainings.TUTORIAL)
+	VALUES (creator, attachment, name, tutorial);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.trainingsuserslinkCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `trainingsuserslinkCreate`(IN `training` INT(10) UNSIGNED, IN `user` INT(10) UNSIGNED)
+BEGIN
+	INSERT INTO trainingsuserslink (trainingsuserslink.TRAINING, trainingsuserslink.USER)
+	VALUES (training, user);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.tutorialCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `tutorialCreate`(IN `training` INT(10) UNSIGNED, IN `index` SMALLINT, IN `body` MEDIUMTEXT)
+BEGIN
+	INSERT INTO tutorials (tutorials.TRAINING, tutorials.`INDEX`, tutorials.BODY)
+	VALUES (training, `index`, body);
 END//
 DELIMITER ;
 
@@ -237,6 +418,16 @@ BEGIN
 						users.USERNAME = username,
 						users.PASSWORD = MD5(MD5(password))
 	WHERE users.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.worklogCreate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `worklogCreate`(IN `ticket` INT(10) UNSIGNED, IN `creator` INT(10) UNSIGNED, IN `time` DECIMAL(3,1), IN `log` TEXT)
+BEGIN
+	INSERT INTO worklogs (worklogs.TICKET, worklogs.CREATOR, worklogs.TIME, worklogs.LOG)
+	VALUES (ticket, creator, time, log);
 END//
 DELIMITER ;
 
