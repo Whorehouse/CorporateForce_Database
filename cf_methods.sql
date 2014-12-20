@@ -316,36 +316,44 @@ DELIMITER ;
 
 -- Dumping structure for procedure corporateforce.projectChangeDescription
 DELIMITER //
-CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeDescription`()
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeDescription`(IN `id` INT(10) UNSIGNED, IN `description` TEXT)
 BEGIN
-
+	UPDATE projects
+	SET projects.`STATUS` = `status`
+	WHERE projects.ID = id;
 END//
 DELIMITER ;
 
 
 -- Dumping structure for procedure corporateforce.projectChangeLead
 DELIMITER //
-CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeLead`()
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeLead`(IN `id` INT(10) UNSIGNED, IN `lead` INT(10) UNSIGNED)
 BEGIN
-
+	UPDATE projects
+	SET projects.LEAD = lead
+	WHERE projects.ID = id;
 END//
 DELIMITER ;
 
 
 -- Dumping structure for procedure corporateforce.projectChangeName
 DELIMITER //
-CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeName`()
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeName`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(100))
 BEGIN
-
+	UPDATE projects
+	SET projects.NAME = name
+	WHERE projects.ID = id;
 END//
 DELIMITER ;
 
 
 -- Dumping structure for procedure corporateforce.projectChangeStatus
 DELIMITER //
-CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeStatus`()
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeStatus`(IN `id` INT(10) UNSIGNED, IN `status` ENUM('ACTIVE','SUSPENDED','CLOSED'))
 BEGIN
-
+	UPDATE projects
+	SET projects.`STATUS` = `status`
+	WHERE projects.ID = id;
 END//
 DELIMITER ;
 
