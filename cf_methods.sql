@@ -180,12 +180,47 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.holidayChangeEndDate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `holidayChangeEndDate`(IN `id` INT(10) UNSIGNED, IN `endDate` DATE)
+BEGIN
+	UPDATE holidays
+	SET holidays.`END` = endDate
+	WHERE holidays.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.holidayChangeStartDate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `holidayChangeStartDate`(IN `id` INT(10) UNSIGNED, IN `startDate` DATE)
+BEGIN
+	UPDATE holidays
+	SET holidays.`START` = startDate
+	WHERE holidays.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.holidayCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `holidayCreate`(IN `user` INT(10) UNSIGNED, IN `startDate` DATE, IN `endDate` DATE)
 BEGIN
 	INSERT INTO holidays (holidays.USER, holidays.`START`, holidays.`END`)
 	VALUES (user, startDate, endDate);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.holidayUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `holidayUpdate`(IN `id` INT(10) UNSIGNED, IN `startDate` DATE, IN `endDate` DATE)
+BEGIN
+	UPDATE holidays
+	SET
+		holidays.`START` = startDate,
+		holidays.`END` = endDate
+	WHERE holidays.ID = id;
 END//
 DELIMITER ;
 
@@ -200,12 +235,60 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.objectivesChangeDescription
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `objectivesChangeDescription`(IN `id` INT(10) UNSIGNED, IN `description` TEXT)
+BEGIN
+	UPDATE objectives
+	SET objectives.DESCRIPTION = description
+	WHERE objectives.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.objectivesChangeStatus
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `objectivesChangeStatus`(IN `id` INT(10) UNSIGNED, IN `status` ENUM('NEW','PENDING','IN PROGRESS','DONE','REJECTED'))
+BEGIN
+	UPDATE objectives
+	SET objectives.`STATUS` = `status`
+	WHERE objectives.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.objectiveUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `objectiveUpdate`(IN `id` INT(10) UNSIGNED, IN `description` TEXT, IN `status` ENUM('NEW','PENDING','IN PROGRESS','DONE','REJECTED'))
+BEGIN
+	UPDATE objectives
+	SET
+		objectives.DESCRIPTION = description,
+		objectives.`STATUS` = `status`
+	WHERE objectives.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.officeCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `officeCreate`(IN `name` VARCHAR(50), IN `address` TEXT)
 BEGIN
 	INSERT INTO offices (offices.NAME, offices.ADDRESS)
 	VALUES (name, address);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.officeUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `officeUpdate`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(50), IN `address` TEXT)
+BEGIN
+	UPDATE offices
+	SET
+		offices.NAME = name,
+		offices.ADDRESS = address
+	WHERE offices.ID = id;
 END//
 DELIMITER ;
 
@@ -220,12 +303,74 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.profileUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `profileUpdate`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(50))
+BEGIN
+	UPDATE profiles
+	SET profiles.NAME = name
+	WHERE profiles.ID = id;
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.projectChangeDescription
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeDescription`()
+BEGIN
+
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.projectChangeLead
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeLead`()
+BEGIN
+
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.projectChangeName
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeName`()
+BEGIN
+
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.projectChangeStatus
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectChangeStatus`()
+BEGIN
+
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.projectCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `projectCreate`(IN `creator` INT(10) UNSIGNED, IN `lead` INT(10) UNSIGNED, IN `status` ENUM('ACTIVE','SUSPENDED','CLOSED'), IN `name` VARCHAR(100), IN `description` TEXT)
 BEGIN
 	INSERT INTO projects (projects.CREATOR, projects.LEAD, projects.`STATUS`, projects.NAME, projects.DESCRIPTION)
 	VALUES (creator, lead, `status`, name, description);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.projectUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `projectUpdate`(IN `id` INT(10) UNSIGNED, IN `status` ENUM('ACTIVE','SUSPENDED','CLOSED'), IN `name` VARCHAR(100), IN `description` TEXT)
+BEGIN
+	UPDATE projects
+	SET
+		projects.LEAD = lead,
+		projects.`STATUS` = `status`,
+		projects.NAME = name,
+		projects.DESCRIPTION = description
+	WHERE projects.ID = id;
 END//
 DELIMITER ;
 
@@ -240,11 +385,41 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.questionUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `questionUpdate`(IN `id` INT(10) UNSIGNED, IN `body` MEDIUMTEXT, IN `answers` TEXT, IN `correct` TINYTEXT)
+BEGIN
+	UPDATE questions
+	SET
+		questions.`INDEX` = `index`,
+		questions.BODY = body,
+		questions.ANSWERS = answers,
+		questions.CORRECT = correct
+	WHERE questions.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.resourcesCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `resourcesCreate`(IN `creator` INT(10) UNSIGNED, IN `name` VARCHAR(50), IN `filetype` VARCHAR(10), IN `filename` VARCHAR(50))
 BEGIN
-	
+	INSERT INTO resources (resources.CREATOR, resources.NAME, resources.FILETYPE, resources.FILENAME)
+	VALUES (creator, name, filetype, filename);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.resourceUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `resourceUpdate`(IN `id` INT(10) UNSIGNED, IN `name` VARCHAR(50), IN `filetype` VARCHAR(10), IN `filename` VARCHAR(50))
+BEGIN
+	UPDATE resources
+	SET
+		resources.NAME = name,
+		resources.FILETYPE = filetype,
+		resources.FILENAME = filename
+	WHERE resources.ID = id;
 END//
 DELIMITER ;
 
@@ -269,12 +444,36 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.roleUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `roleUpdate`(IN `id` INT(10) UNSIGNED, IN `parent` INT(10) UNSIGNED, IN `name` VARCHAR(50))
+BEGIN
+	UPDATE roles
+	SET
+		roles.PARENT = parent,
+		roles.NAME = name
+	WHERE roles.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.settingsCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `settingsCreate`(IN `user` INT(10) UNSIGNED)
 BEGIN
 	INSERT INTO settings (settings.USER)
 	VALUES (user);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.settingsUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `settingsUpdate`(IN `id` INT(10) UNSIGNED, IN `language` INT(10) UNSIGNED)
+BEGIN
+	UPDATE settings
+	SET settings.`LANGUAGE` = `language`
+	WHERE settings.ID = id;
 END//
 DELIMITER ;
 
@@ -300,6 +499,25 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.ticketUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `ticketUpdate`(IN `id` INT(10) UNSIGNED, IN `user` INT(10) UNSIGNED, IN `type` ENUM('BUG','TASK','QUESTION','NEW FEATURE','IMPROVEMENT'), IN `priority` ENUM('MAJOR','MINOR','TRIVIAL'), IN `status` ENUM('OPEN','IN PROGRESS','CLOSED'), IN `estimate` DECIMAL(3,1), IN `duedate` DATE, IN `name` VARCHAR(50), IN `description` TEXT)
+BEGIN
+	UPDATE tickets
+	SET
+		tickets.USER = user,
+		tickets.`TYPE` = `type`,
+		tickets.PRIORITY = priority,
+		tickets.`STATUS` = `status`,
+		tickets.ESTIMATE = estimate,
+		tickets.DUEDATE = duedate,
+		tickets.NAME = name,
+		tickets.DESCRIPTION = description
+	WHERE tickets.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.trainingCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `trainingCreate`(IN `creator` INT(10) UNSIGNED, IN `attachment` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `tutorial` TINYINT(1))
@@ -320,12 +538,39 @@ END//
 DELIMITER ;
 
 
+-- Dumping structure for procedure corporateforce.trainingUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `trainingUpdate`(IN `id` INT(10) UNSIGNED, IN `attachment` INT(10) UNSIGNED, IN `name` VARCHAR(100), IN `tutorial` TINYINT(1))
+BEGIN
+	UPDATE trainings
+	SET
+		trainings.ATTACHMENT = attachment,
+		trainings.NAME = name,
+		trainings.TUTORIAL = tutorial
+	WHERE trainings.ID = id;
+END//
+DELIMITER ;
+
+
 -- Dumping structure for procedure corporateforce.tutorialCreate
 DELIMITER //
 CREATE DEFINER=`veress`@`%` PROCEDURE `tutorialCreate`(IN `training` INT(10) UNSIGNED, IN `index` SMALLINT, IN `body` MEDIUMTEXT)
 BEGIN
 	INSERT INTO tutorials (tutorials.TRAINING, tutorials.`INDEX`, tutorials.BODY)
 	VALUES (training, `index`, body);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.tutorialUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `tutorialUpdate`(IN `id` INT(10) UNSIGNED, IN `index` SMALLINT, IN `body` MEDIUMTEXT)
+BEGIN
+	UPDATE tutorials
+	SET
+		tutorials.`INDEX` = `index`,
+		tutorials.BODY = body
+	WHERE tutorials.ID = id;
 END//
 DELIMITER ;
 
@@ -428,6 +673,19 @@ CREATE DEFINER=`veress`@`%` PROCEDURE `worklogCreate`(IN `ticket` INT(10) UNSIGN
 BEGIN
 	INSERT INTO worklogs (worklogs.TICKET, worklogs.CREATOR, worklogs.TIME, worklogs.LOG)
 	VALUES (ticket, creator, time, log);
+END//
+DELIMITER ;
+
+
+-- Dumping structure for procedure corporateforce.worklogUpdate
+DELIMITER //
+CREATE DEFINER=`veress`@`%` PROCEDURE `worklogUpdate`(IN `id` INT(10) UNSIGNED, IN `time` DECIMAL(3,1), IN `log` TEXT)
+BEGIN
+	UPDATE worklogs
+	SET
+		worklogs.TIME = time,
+		worklogs.LOG = log
+	WHERE worklogs.ID = id;
 END//
 DELIMITER ;
 
